@@ -5,6 +5,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 
 import PublicLayout from './layouts/PublicLayout';
 import AdminLayout from './layouts/AdminLayout';
+import OfficerLayout from './layouts/OfficerLayout';
 
 import LandingPage from './pages/LandingPage';
 import AboutPage from './pages/AboutPage';
@@ -18,11 +19,13 @@ import SchemeDetailsPage from './pages/SchemeDetailsPage';
 import ApplicationFormPage from './pages/ApplicationFormPage';
 import ApplicationTrackingPage from './pages/ApplicationTrackingPage';
 import DocumentUploadPage from './pages/DocumentUploadPage';
+import ProfilePage from './pages/ProfilePage';
 
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import AdminSchemeManagementPage from './pages/AdminSchemeManagementPage';
 import AdminApplicationManagementPage from './pages/AdminApplicationManagementPage';
 import AdminUserManagementPage from './pages/AdminUserManagementPage';
+import OfficerApplicationManagementPage from './pages/OfficerApplicationManagementPage';
 
 export default function App() {
   return (
@@ -52,6 +55,9 @@ export default function App() {
               <Route path="/documents" element={
                 <ProtectedRoute><DocumentUploadPage /></ProtectedRoute>
               } />
+              <Route path="/profile" element={
+                <ProtectedRoute><ProfilePage /></ProtectedRoute>
+              } />
             </Route>
 
             <Route path="/admin" element={
@@ -62,6 +68,13 @@ export default function App() {
               <Route path="schemes" element={<AdminSchemeManagementPage />} />
               <Route path="applications" element={<AdminApplicationManagementPage />} />
               <Route path="users" element={<AdminUserManagementPage />} />
+            </Route>
+
+            <Route path="/officer" element={
+              <ProtectedRoute requiredRole="OFFICER"><OfficerLayout /></ProtectedRoute>
+            }>
+              <Route index element={<Navigate to="applications" replace />} />
+              <Route path="applications" element={<OfficerApplicationManagementPage />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

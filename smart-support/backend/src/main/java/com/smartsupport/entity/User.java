@@ -42,6 +42,9 @@ public class User {
 
     private String district;
 
+    @Column(length = 1000)
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private Role role = Role.USER;

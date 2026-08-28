@@ -68,6 +68,8 @@ public class EligibilityService {
                     .eligible(dto.isEligible())
                     .matchScore(dto.getMatchScore())
                     .reasons(String.join(" | ", dto.getReasons()))
+                        .medicalBillFileNames(request.getMedicalBillFileNames() == null
+                            ? null : String.join(" | ", request.getMedicalBillFileNames()))
                     .build();
             eligibilityResultRepository.save(record);
         }

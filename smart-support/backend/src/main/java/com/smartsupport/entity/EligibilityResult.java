@@ -34,6 +34,9 @@ public class EligibilityResult {
     @Column(length = 2000)
     private String reasons;
 
+    @Column(name = "medical_bill_file_names", length = 4000)
+    private String medicalBillFileNames;
+
     @Column(name = "checked_at")
     private LocalDateTime checkedAt;
 

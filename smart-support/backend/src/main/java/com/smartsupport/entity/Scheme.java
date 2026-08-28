@@ -1,5 +1,6 @@
 package com.smartsupport.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -65,6 +66,11 @@ public class Scheme {
 
     @Builder.Default
     private Boolean active = true;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "officer_id", unique = true)
+    @JsonIgnore
+    private User officer;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

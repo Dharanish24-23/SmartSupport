@@ -75,6 +75,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/eligibility/check").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/officer/**").hasRole("OFFICER")
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider())

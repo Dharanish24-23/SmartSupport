@@ -16,7 +16,7 @@ export default function LoginPage() {
     try {
       const user = await login(form);
       showToast('Welcome back!');
-      navigate(user.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard');
+      navigate(user.role === 'ADMIN' ? '/admin/dashboard' : user.role === 'OFFICER' ? '/officer/applications' : '/dashboard');
     } catch (err) {
       showToast(err?.response?.data?.message || 'Invalid email or password', 'error');
     } finally {

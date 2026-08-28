@@ -10,7 +10,9 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const dashboardPath = user?.role === 'ADMIN' ? '/admin/dashboard' : '/dashboard';
+  const dashboardPath = user?.role === 'ADMIN'
+    ? '/admin/dashboard'
+    : user?.role === 'OFFICER' ? '/officer/applications' : '/dashboard';
 
   return (
     <header className="navbar">

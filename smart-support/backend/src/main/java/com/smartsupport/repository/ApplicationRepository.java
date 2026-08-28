@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface ApplicationRepository extends JpaRepository<Application, Long> {
     List<Application> findByUserOrderBySubmittedAtDesc(User user);
+    List<Application> findBySchemeOfficerOrderBySubmittedAtDesc(User officer);
     Optional<Application> findByApplicationNumber(String applicationNumber);
     long countByStatus(com.smartsupport.entity.ApplicationStatus status);
 }

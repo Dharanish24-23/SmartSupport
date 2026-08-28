@@ -25,6 +25,7 @@ public class EligibilityCheckRequest {
     private Boolean treatmentRequired;
     private Boolean medicalEmergency;
     private Boolean medicalReportAvailable;
+    private List<String> medicalBillFileNames;
 
     // Step 4 - Documents available (checkbox names)
     private List<String> documentsAvailable;

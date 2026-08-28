@@ -5,7 +5,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import EmptyState from '../components/EmptyState';
 import { Link } from 'react-router-dom';
 
-const TIMELINE_STAGES = ['PENDING', 'UNDER_REVIEW', 'APPROVED'];
+const TIMELINE_STAGES = ['PENDING', 'DOCUMENT_VERIFICATION', 'REVIEW', 'APPROVED'];
 
 export default function ApplicationTrackingPage() {
   const [applications, setApplications] = useState([]);
@@ -65,10 +65,9 @@ export default function ApplicationTrackingPage() {
             </div>
           ) : (
             <div className="flex justify-between" style={{ flexWrap: 'wrap', gap: 12 }}>
-              {['Application Submitted', 'Documents Verification', 'Under Review', 'Approved'].map((stage, idx) => {
-                const stageStatus = ['PENDING', 'PENDING', 'UNDER_REVIEW', 'APPROVED'][idx];
-                const currentIdx = TIMELINE_STAGES.indexOf(selected.status);
-                const isDone = idx === 0 || (stageStatus === 'UNDER_REVIEW' && currentIdx >= 1) || (stageStatus === 'APPROVED' && currentIdx >= 2);
+              {['Application Submitted', 'Document Verification', 'Review', 'Approved'].map((stage, idx) => {
+                const currentIdx = Math.max(0, TIMELINE_STAGES.indexOf(selected.status));
+                const isDone = currentIdx >= idx;
                 return (
                   <div key={stage} className="flex-col text-center" style={{ minWidth: 130 }}>
                     <div className="step-circle" style={{ background: isDone ? 'var(--color-primary)' : 'var(--color-border)', margin: '0 auto 8px' }}>

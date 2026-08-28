@@ -33,7 +33,8 @@ export function AuthProvider({ children }) {
     setLoading(true);
     try {
       const res = await loginUser(credentials);
-      return persistSession(res.data);
+      const userInfo = persistSession(res.data);
+      return userInfo;
     } finally {
       setLoading(false);
     }

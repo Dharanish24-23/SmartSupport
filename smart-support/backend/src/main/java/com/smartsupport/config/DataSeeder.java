@@ -8,10 +8,12 @@ import com.smartsupport.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Comparator;
 
 /**
  * Seeds the database with a default admin account and sample (demo) schemes
@@ -26,6 +28,7 @@ public class DataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final SchemeRepository schemeRepository;
     private final PasswordEncoder passwordEncoder;
+        private final JdbcTemplate jdbcTemplate;
 
     @Value("${app.admin.default-email}")
     private String adminEmail;
@@ -35,9 +38,17 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+                ensureApplicationStatusConstraint();
         seedAdmin();
         seedSchemes();
+                seedOfficers();
     }
+
+        private void ensureApplicationStatusConstraint() {
+                jdbcTemplate.execute("ALTER TABLE applications DROP CONSTRAINT IF EXISTS applications_status_check");
+                jdbcTemplate.execute("ALTER TABLE applications ADD CONSTRAINT applications_status_check "
+                                + "CHECK (status IN ('PENDING', 'DOCUMENT_VERIFICATION', 'REVIEW', 'UNDER_REVIEW', 'APPROVED', 'REJECTED'))");
+        }
 
     private void seedAdmin() {
         if (userRepository.existsByEmail(adminEmail)) return;
@@ -222,4 +233,31 @@ public class DataSeeder implements CommandLineRunner {
 
         schemeRepository.saveAll(schemes);
     }
+
+        private void seedOfficers() {
+                List<Scheme> schemes = schemeRepository.findAll().stream()
+                                .sorted(Comparator.comparing(Scheme::getId))
+                                .toList();
+                for (int index = 0; index < schemes.size(); index++) {
+                        Scheme scheme = schemes.get(index);
+                        if (scheme.getOfficer() != null) continue;
+
+                            int schemeNumber = index + 1;
+                            String username = String.format("scheme.officer.%02d@smartsupport.com", schemeNumber);
+                            User officer = userRepository.findByEmail(username).orElse(null);
+                            if (officer == null) {
+                                officer = User.builder()
+                                        .fullName("Scheme Officer " + schemeNumber)
+                                        .email(username)
+                                        .phone(String.format("900000%04d", schemeNumber))
+                                        .password(passwordEncoder.encode("Officer@" + (1000 + schemeNumber)))
+                                        .role(Role.OFFICER)
+                                        .build();
+                            }
+                        officer.setRole(Role.OFFICER);
+                        scheme.setOfficer(officer);
+                        userRepository.save(officer);
+                        schemeRepository.save(scheme);
+                }
+        }
 }
