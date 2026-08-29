@@ -38,11 +38,16 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+                ensureProfileColumns();
                 ensureApplicationStatusConstraint();
         seedAdmin();
         seedSchemes();
                 seedOfficers();
     }
+
+        private void ensureProfileColumns() {
+                jdbcTemplate.execute("ALTER TABLE users ADD COLUMN IF NOT EXISTS address varchar(1000)");
+        }
 
         private void ensureApplicationStatusConstraint() {
                 jdbcTemplate.execute("ALTER TABLE applications DROP CONSTRAINT IF EXISTS applications_status_check");

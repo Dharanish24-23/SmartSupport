@@ -7,15 +7,15 @@ const LINKS = [
   { to: '/eligibility-checker', label: 'Check Eligibility', icon: '✓' },
   { to: '/schemes', label: 'Schemes', icon: '▣' },
   { to: '/about', label: 'About', icon: 'ⓘ' },
-  { to: '/dashboard', label: 'Dashboard', icon: '▥', protected: true },
-  { to: '/profile', label: 'Profile', icon: '♙', protected: true },
+  { to: '/dashboard', label: 'Dashboard', icon: '▥' },
+  { to: '/profile', label: 'Profile', icon: '♙' },
 ];
 
 export default function NavigationSidebar() {
   const [open, setOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const visibleLinks = LINKS.filter((link) => !link.protected || user);
+  const visibleLinks = LINKS;
 
   const closeMenu = () => setOpen(false);
   const handleLogout = () => {
@@ -38,7 +38,6 @@ export default function NavigationSidebar() {
       <div className={`navigation-sidebar ${open ? 'is-open' : ''}`}>
         <div className="navigation-sidebar-header">
           <span className="navigation-sidebar-kicker">SmartSupport</span>
-          <span className="navigation-sidebar-title">Public services</span>
         </div>
         <nav className="navigation-sidebar-links" aria-label="Primary navigation">
           {visibleLinks.map((link) => (
@@ -54,12 +53,10 @@ export default function NavigationSidebar() {
             </NavLink>
           ))}
         </nav>
-        {user && (
-          <button type="button" className="navigation-sidebar-logout" onClick={handleLogout}>
-            <span className="navigation-sidebar-icon" aria-hidden="true">↪</span>
-            <span className="navigation-sidebar-label">Logout</span>
-          </button>
-        )}
+        <button type="button" className="navigation-sidebar-logout" onClick={handleLogout}>
+          <span className="navigation-sidebar-icon" aria-hidden="true">↪</span>
+          <span className="navigation-sidebar-label">Logout</span>
+        </button>
       </div>
       {open && <button type="button" className="navigation-sidebar-backdrop" aria-label="Close navigation menu" onClick={closeMenu} />}
     </>
