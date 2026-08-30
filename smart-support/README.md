@@ -319,17 +319,17 @@ The existing 10 demo schemes each receive one separate officer account. No new s
 are created and existing scheme criteria are unchanged.
 
 | Scheme | Username | Password |
-|---:|---|---|
-| 1 | `scheme.officer.01@smartsupport.com` | `Officer@1001` |
-| 2 | `scheme.officer.02@smartsupport.com` | `Officer@1002` |
-| 3 | `scheme.officer.03@smartsupport.com` | `Officer@1003` |
-| 4 | `scheme.officer.04@smartsupport.com` | `Officer@1004` |
-| 5 | `scheme.officer.05@smartsupport.com` | `Officer@1005` |
-| 6 | `scheme.officer.06@smartsupport.com` | `Officer@1006` |
-| 7 | `scheme.officer.07@smartsupport.com` | `Officer@1007` |
-| 8 | `scheme.officer.08@smartsupport.com` | `Officer@1008` |
-| 9 | `scheme.officer.09@smartsupport.com` | `Officer@1009` |
-| 10 | `scheme.officer.10@smartsupport.com` | `Officer@1010` |
+|---|---|---|
+| Medical Financial Assistance Scheme (Demo) | `scheme.officer.01@smartsupport.com` | `Officer@1001` |
+| Senior Citizen Support Scheme (Demo) | `scheme.officer.02@smartsupport.com` | `Officer@1002` |
+| Women Financial Support Scheme (Demo) | `scheme.officer.03@smartsupport.com` | `Officer@1003` |
+| Student Education Assistance Scheme (Demo) | `scheme.officer.04@smartsupport.com` | `Officer@1004` |
+| Disability Assistance Scheme (Demo) | `scheme.officer.05@smartsupport.com` | `Officer@1005` |
+| Emergency Medical Support Scheme (Demo) | `scheme.officer.06@smartsupport.com` | `Officer@1006` |
+| Low Income Family Support Scheme (Demo) | `scheme.officer.07@smartsupport.com` | `Officer@1007` |
+| Child Healthcare Assistance Scheme (Demo) | `scheme.officer.08@smartsupport.com` | `Officer@1008` |
+| Farmer Financial Assistance Scheme (Demo) | `scheme.officer.09@smartsupport.com` | `Officer@1009` |
+| NGO Medical Aid Scheme (Demo) | `scheme.officer.10@smartsupport.com` | `Officer@1010` |
 
 After signing in, an officer sees only applications for the assigned scheme. The only
 available officer statuses are **Document Verification**, **Review**, and **Approved**.

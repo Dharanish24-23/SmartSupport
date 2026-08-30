@@ -239,30 +239,44 @@ public class DataSeeder implements CommandLineRunner {
         schemeRepository.saveAll(schemes);
     }
 
-        private void seedOfficers() {
-                List<Scheme> schemes = schemeRepository.findAll().stream()
-                                .sorted(Comparator.comparing(Scheme::getId))
-                                .toList();
-                for (int index = 0; index < schemes.size(); index++) {
-                        Scheme scheme = schemes.get(index);
-                        if (scheme.getOfficer() != null) continue;
+    private void seedOfficers() {
+        List<Scheme> schemes = schemeRepository.findAll().stream()
+                .sorted(Comparator.comparing(Scheme::getId))
+                .toList();
 
-                            int schemeNumber = index + 1;
-                            String username = String.format("scheme.officer.%02d@smartsupport.com", schemeNumber);
-                            User officer = userRepository.findByEmail(username).orElse(null);
-                            if (officer == null) {
-                                officer = User.builder()
-                                        .fullName("Scheme Officer " + schemeNumber)
-                                        .email(username)
-                                        .phone(String.format("900000%04d", schemeNumber))
-                                        .password(passwordEncoder.encode("Officer@" + (1000 + schemeNumber)))
-                                        .role(Role.OFFICER)
-                                        .build();
-                            }
-                        officer.setRole(Role.OFFICER);
-                        scheme.setOfficer(officer);
-                        userRepository.save(officer);
-                        schemeRepository.save(scheme);
-                }
+        for (Scheme scheme : schemes) {
+            if (scheme.getOfficer() != null) {
+                scheme.setOfficer(null);
+                schemeRepository.save(scheme);
+            }
         }
+
+        for (int index = 0; index < schemes.size(); index++) {
+            Scheme scheme = schemes.get(index);
+            int schemeNumber = index + 1;
+            String username = String.format("scheme.officer.%02d@smartsupport.com", schemeNumber);
+            String expectedPassword = "Officer@" + (1000 + schemeNumber);
+
+            User officer = userRepository.findByEmail(username).orElse(null);
+            if (officer == null) {
+                officer = User.builder()
+                        .fullName("Scheme Officer " + schemeNumber)
+                        .email(username)
+                        .phone(String.format("900000%04d", schemeNumber))
+                        .password(passwordEncoder.encode(expectedPassword))
+                        .role(Role.OFFICER)
+                        .build();
+            } else {
+                officer.setFullName("Scheme Officer " + schemeNumber);
+                officer.setPhone(String.format("900000%04d", schemeNumber));
+                officer.setPassword(passwordEncoder.encode(expectedPassword));
+                officer.setRole(Role.OFFICER);
+            }
+
+            User finalOfficer = officer;
+            scheme.setOfficer(finalOfficer);
+            userRepository.save(finalOfficer);
+            schemeRepository.save(scheme);
+        }
+    }
 }
