@@ -51,9 +51,6 @@ export default function LoginPage() {
         <p className="text-center text-muted mt-16">
           Don't have an account? <Link to="/register" style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Register</Link>
         </p>
-        <p className="text-center text-muted mt-8" style={{ fontSize: '0.78rem' }}>
-          Admin demo login: admin@smartsupport.com / Admin@1234
-        </p>
       </div>
     </div>
   );
